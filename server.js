@@ -154,8 +154,14 @@ app.get('/delete/:formId', async (req, res) => {
 
 
 // Load schemas to use for Anthropic and OpenAI
-import extractFormQuestionsAnthropic from './data/extract-form-questions-anthropic.json' assert { type: 'json' };
-import extractFormQuestionsOpenAI from './data/extract-form-questions-openai.json' assert { type: 'json' };
+// import extractFormQuestionsAnthropic from './data/extract-form-questions-anthropic.json' assert { type: 'json' };
+// import extractFormQuestionsOpenAI from './data/extract-form-questions-openai.json' assert { type: 'json' };
+const extractFormQuestionsAnthropic = await import('./data/extract-form-questions-anthropic.json', {
+  assert: { type: 'json' }
+});
+const extractFormQuestionsOpenAI = await import('./data/extract-form-questions-openai.json', {
+  assert: { type: 'json' }
+});
 
 // get API Keys from environment variables 
 const anthropic = new Anthropic();  // ANTHROPIC_API_KEY
@@ -174,7 +180,8 @@ app.get('/extractForm/:formId/:pageNum/', async (req, res) => {
     var llm = "OpenAI";
   }
 
-  var llm = "OpenAI"
+	var llm = "OpenAI"
+  // var llm = "Anthropic"
 
   return sendToLLM(llm, req, res)
 
@@ -295,8 +302,90 @@ async function callOpenAI(image_data, image_media_type, prompt) {
         ],
       },
     ],
-    tools: [extractFormQuestionsOpenAI]
+    tools: [ 
+{
+  "type": "function",
+  "function": {
+      "name": "extract_form_questions",
+      "description": "Extract the questions from an image of a form. If the image is not a form, explain this in the 'alert' property.",
+      "parameters": {
+          "type": "object",
+          "required": ["pages"],
+          "properties": {
+              "alert": {
+                  "type": "string",
+                  "description": "Any message text returned by OpenAI, for example if it doesn't detect any questions."
+              },
+              "pages": {
+                  "type": "array",
+                  "description": "An array of the questions in the form. A question typically consists of a question title, some optional hint text and one or more form fields. Form fields typically look like boxes.",
+                  "items": {
+                      "type": "object",
+                      "properties": {
+                          "id": {
+                              "type": "number",
+                              "description": "The number of the question. If the questions in the image don't have numbers, number them sequentially, starting at 1."
+                          },
+                          "question_text": {
+                              "type": "string",
+                              "description": "The title of the question. Questions titles are often bigger or bolder than the surrounding text."
+                          },
+                          "hint_text": {
+                              "type": "string",
+                              "description": "Any hint text associated with the question. It often appears immediately below the question title, in a smaller or lighter font. An example of hint text is 'Tick the box or boxes that apply"
+                          },
+                          "needs_routing": {
+                              "type": "boolean",
+                              "description": "True if any part of the question contains text like 'Go to page...' or 'Go to question...'"
+                          },
+                          "answer_type": {
+                              "type": "string",
+                              "description": "The type of question being asked, based on the fields. If any part of the question contains text like 'Tick the boxes...' it's a multiple_choice question. If a question contains square boxes it's a multiple_choice question. If it's asking how many of something there is, it's a number question.",
+                              "enum": ["number", "email", "name", "national_insurance_number", "phone_number", "organisation_name", "address", "date", "single_choice", "multiple_choice", "text", "yes_no_question"]
+                          },
+                          "answer_settings": {
+                              "type": "object",
+                              "properties": {
+                                  "input_type": {
+                                      "type": "string",
+                                      "description": "The specific form field type for this question",
+                                      "enum": ["date_of_birth", "other_date", "full_name", "uk_address", "international_address"]
+                                  }
+                              }
+                          },
+                          "options": {
+                              "type": "array",
+                              "description": "If the answer_type is single_choice or multiple_choice, list the options here. Only give options that appear in the original image, do not make any up. There should be the same number of options as boxes or circles. Phrases like 'Tick the box' are never options.",
+                              "items": {
+                                  "type": "object",
+                                  "properties": {
+                                      "value": {
+                                          "type": "string",
+                                          "description": "Option"
+                                      },
+                                      "text": {
+                                          "type": "string",
+                                          "description": "Option"
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      }
+  }
+}
+
+    ]
   });
+
+//tools: [extractFormQuestionsOpenAI]
+
+
+
+
 
   let result = JSON.parse(completion.choices[0].message.tool_calls[0].function.arguments);
   console.log(result);
