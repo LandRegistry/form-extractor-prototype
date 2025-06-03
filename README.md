@@ -17,9 +17,9 @@
 
 - this app runs on node 22.14.0, So will probably work on newer versions and perhaps some previous versions
 - you will need to add a `.env` file in the root folder and add your actual API keys to it
-- you must not upload your `.env` file to github, the git settings in this repo - the .gitignore file - is set to ignore `.env` files, ie they will not be pushed to github - **do not change this**  this is how you keep your API keys private
+- you must not upload your `.env` file to github, the git settings in this repo - the .gitignore file - is set to ignore `.env` files, ie they will not be pushed to github - **do not change this**,  this is how you keep your API keys private
 
-####What to add to your .env file
+What to add to your .env file:
 ```
 export ANTHROPIC_API_KEY='<your key here>'
 
