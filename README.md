@@ -2,7 +2,7 @@
 
 ## readme updates and ammendments to the original ##
 
-### **Read the original readme first**
+### Read the original readme first
 
 ### Amendments:
 
@@ -11,7 +11,7 @@
 
 - nunjucks tab has been added
 - idea is that it will turn the form into nunjucks you can copy and paste into your own prototype
-- it only works currently for fields of type name
+- it only works currently for fields of type **name**
 
 ### To get this working:
 
