@@ -171,7 +171,7 @@ const google = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 // Define GET route for form extraction
 
 app.get('/extractForm/:formId/:pageNum/', async (req, res) => {
-  var llm = "Google" // Set to "Google", "Anthropic" or "OpenAI"
+  var llm = "Anthropic" // Set to "Google", "Anthropic" or "OpenAI"
   return sendToLLM(llm, req, res)
 });
 
@@ -496,6 +496,20 @@ app.get('/json/:formId/:pageNum', (req, res) => {
   res.locals.formId = formId
   res.locals.fileData = fileData
   res.render('json.njk')
+})
+
+/* Render NUNJUCK pages */
+app.get('/nunjuck/:formId/:pageNum/:question', (req, res) => {  
+  const formId = req.params.formId 
+  const fileData = loadFileData(formId)
+  const pageNum = Number(req.params.pageNum)
+  const question = Number(req.params.question)
+  res.locals.formId = formId
+  res.locals.fileData = fileData
+  res.locals.pageNum = pageNum
+  res.locals.question = question
+  res.locals.questionIndex = arraySum(fileData.formStructure, 0, pageNum-1) + question -1
+  res.render('nunjuck.njk')
 })
 
 app.listen(port, () => {

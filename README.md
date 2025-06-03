@@ -1,5 +1,34 @@
 # Form Extractor Prototype
 
+## readme updates and ammendments to the original ##
+
+### **Read the original readme first**
+
+### Amendments:
+
+- the LLM is currently hardcoded to use Anththropic, line 174 in server.js
+- anthropic probably requires a paid API key
+
+- nunjucks tab has been added
+- idea is that it will turn the form into nunjucks you can copy and paste into your own prototype
+- it only works currently for fields of type name
+
+### To get this working:
+
+- this app runs on node 22.14.0, So will probably work on newer versions and perhaps some previous versions
+- you will need to add a `.env` file in the root folder and add your actual API keys to it
+- you must not upload your `.env` file to github, the git settings in this repo - the .gitignore file - is set to ignore `.env` files, ie they will not be pushed to github - **do not change this**  this is how you keep your API keys private
+
+####What to add to your .env file
+```
+export ANTHROPIC_API_KEY='<your key here>'
+
+export OPENAI_API_KEY='<your key here>'
+
+export GEMINI_API_KEY='<your key here>'
+```
+
+## Original readme ##
 This tool extracts the structure from a PDF or image of a form.
 
 It's currently using Google Gemini Flash 2.5.

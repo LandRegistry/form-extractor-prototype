@@ -211,3 +211,8 @@ pre {
 		@include govuk-font(36, $weight: "bold");
 	}
 }
+
+/* nunjucks page styling */
+.pagination-previous-link{
+	margin-right: 25px;
+}

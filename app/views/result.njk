@@ -69,6 +69,9 @@
   {% set jsonHtml %}
   <iframe class="extracted-form" id="jsonTabIframe" src="/json/{{ formId }}/{{ pageNum }}" width="100%" height="650px" scrolling="auto"></iframe>
   {% endset -%}
+  {% set nunjuckHtml %}
+  <iframe class="extracted-form" id="nunjuckTabIframe" src="/nunjuck/{{ formId }}/{{ pageNum }}/{{question}}" width="100%" height="650px" scrolling="auto"></iframe>
+  {% endset -%}
 
   {{ govukTabs({
     items: [
@@ -77,6 +80,13 @@
         id: "form",
         panel: {
           html: formHtml
+        }
+      },
+      {
+        label: "nunjucks",
+        id: "nunjuck",
+        panel: {
+          html: nunjuckHtml
         }
       },
       {
