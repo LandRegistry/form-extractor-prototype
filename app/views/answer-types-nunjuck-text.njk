@@ -1,0 +1,107 @@
+
+
+{# DATE OF BIRTH #}
+
+{% macro date_of_birth_njk(question, hint) %}
+
+{% set returnVar = 
+"{{ govukDateInput({
+  id: 'dob',
+  namePrefix: 'dob',
+  fieldset: {
+    legend: {
+      text: '" + question + "',
+      isPageHeading: true,
+      classes: 'govuk-fieldset__legend--l'
+    }
+  },
+  hint: {
+    text: " + hint + "
+  },
+  items: [
+    {
+      name: 'day',
+      classes: 'govuk-input--width-2',
+      autocomplete: 'bday-day'
+    },
+    {
+      name: 'month',
+      classes: 'govuk-input--width-2',
+      autocomplete: 'bday-month'
+    },
+    {
+      name: 'year',
+      classes: 'govuk-input--width-4',
+      autocomplete: 'bday-year'
+    }
+  ]
+}) }}"
+						%}
+
+{{ returnVar }}
+
+{% endmacro %}
+
+
+{# NAME #}
+{% macro name_njk(question, hint) %}
+
+{% set returnVar = "
+{{ govukInput({
+  label: {
+    text: '" + question + "' ,
+    classes: 'govuk-label--l',
+    isPageHeading: true
+  },
+  hint: {
+    text: " + hint + "
+  },
+  id: 'full-name',
+  name: 'fullName',
+  autocomplete: 'name',
+  spellcheck: false
+}) }}"
+%}
+
+{{ returnVar }}
+
+{% endmacro %}
+
+
+{# DATE #}
+{% macro date_njk(question, hint) %}
+
+{% set returnVar = "
+{{ govukDateInput({
+  id: 'date',
+  namePrefix: 'date',
+  fieldset: {
+    legend: {
+      text: '" + question + "',
+      isPageHeading: true,
+      classes: 'govuk-fieldset__legend--l'
+    }
+  },
+  hint: {
+    text: " + hint + "
+  },
+  items: [
+    {
+      name: 'day',
+      classes: 'govuk-input--width-2'
+    },
+    {
+      name: 'month',
+      classes: 'govuk-input--width-2'
+    },
+    {
+      name: 'year',
+      classes: 'govuk-input--width-4'
+    }
+  ]
+}) }}"
+%}
+
+{{ returnVar }}
+
+{% endmacro %}
