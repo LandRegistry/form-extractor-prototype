@@ -1,0 +1,25 @@
+      
+      {% from "govuk/components/button/macro.njk" import govukButton %}
+
+
+      {# CONTINUE BUTTON #}
+
+			{% macro button(fileData, questionIndex, formId, pageNum, question) %}	
+      {% if fileData.pages.length - 1 == questionIndex %}
+        {{ govukButton({
+          text: "Continue",
+          href: "/forms/" + formId + "/" + pageNum + "/" + question + "/check-answers"
+        }) }}
+      {% elif fileData.formStructure[pageNum-1] == question %}
+        {{ govukButton({
+          text: "Continue",
+          href: "/results/form-" + formId + "/" + (pageNum + 1),
+          attributes: {target: "_top"}
+        }) }}
+      {% else %}
+        {{ govukButton({
+          text: "Continue",
+          href: question + 1
+        }) }}        
+      {% endif %}
+      {% endmacro %}
