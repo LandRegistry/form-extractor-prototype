@@ -7733,4 +7733,9 @@ pre {
   }
 }
 
+/* nunjucks page styling */
+.pagination-previous-link{
+	margin-right: 25px;
+}
+
 /*# sourceMappingURL=style.css.map */

@@ -11,7 +11,7 @@
 
 - nunjucks tab has been added
 - idea is that it will turn the form into nunjucks you can copy and paste into your own prototype
-- it only works currently for fields of type **name**
+- it only works currently for fields of type **name** and **date of birth**
 
 ### To get this working:
 
