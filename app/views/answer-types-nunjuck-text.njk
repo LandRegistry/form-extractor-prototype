@@ -60,7 +60,7 @@
   name: 'fullName',
   autocomplete: 'name',
   spellcheck: false
-}) }}"
+}) }}" 
 %}
 
 {{ returnVar }}
@@ -100,6 +100,21 @@
     }
   ]
 }) }}"
+%}
+
+{{ returnVar }}
+
+{% endmacro %}
+
+{# BUTTON #}
+{% macro button_njk(question) %}
+
+{% set nextPage = question + 1 %}
+{% set returnVar = "
+{{ govukButton({
+  text: 'Continue',
+  href: '" + nextPage + "'
+}) }}" 
 %}
 
 {{ returnVar }}
