@@ -106,6 +106,29 @@
 
 {% endmacro %}
 
+
+{# TEXT #}
+
+{% macro text_njk(question, hint) %}
+{% set returnVar = "
+{{ govukInput({
+  label: {
+    text: '" + question + "',
+    classes: 'govuk-label--l',
+    isPageHeading: true
+  },
+  hint: {
+    text: " + hint + "
+  },
+  id: 'text',
+  name: 'text'
+}) }}"
+%}
+
+{{ returnVar }}
+{% endmacro %}
+
+
 {# BUTTON #}
 {% macro button_njk(question) %}
 
